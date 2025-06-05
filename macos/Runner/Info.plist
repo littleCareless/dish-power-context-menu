@@ -32,10 +32,10 @@
     <array>
       <dict>
         <key>CFBundleURLName</key>
-        <string>com.yourcompany.yourapp</string>
+        <string>com.yourcompany.dishapp</string>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>yourapp</string>
+          <string>dishapp</string>
         </array>
       </dict>
     </array>
