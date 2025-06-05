@@ -16,10 +16,63 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true, // 建议开启 Material 3
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.teal, // 例如 Teal
+          brightness: Brightness.light, // 或者 .dark
+        ),
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            // color 继承自 colorScheme.onSurface 或 onPrimary
+          ),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            side: const BorderSide(width: 1.5),
+          ),
+        ),
+        cardTheme: CardThemeData(
+          elevation: 0.5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
+        ),
+        listTileTheme: ListTileThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: '文件夹授权管理'),
     );
   }
 }
@@ -80,7 +133,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // 如果是 null 或其他非预期类型，视为空列表处理或根据需要抛出错误
         resultList = [];
         if (rawResult != null) {
-          print('Flutter: openFolder returned an unexpected type: ${rawResult.runtimeType}');
+          print(
+            'Flutter: openFolder returned an unexpected type: ${rawResult.runtimeType}',
+          );
         }
       }
 
@@ -89,7 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
         List<String> newBookmarksFromSelection = [];
         List<String> newPathsFromSelection = [];
 
-        for (var item in resultList) { // 使用 resultList 进行迭代
+        for (var item in resultList) {
+          // 使用 resultList 进行迭代
           if (item is Map) {
             final folderPath = item['path'] as String?;
             final bookmark = item['bookmark'] as String?;
@@ -97,29 +153,32 @@ class _MyHomePageState extends State<MyHomePage> {
               newPathsFromSelection.add(folderPath);
               newBookmarksFromSelection.add(bookmark);
               print('Flutter: User selected folder: $folderPath');
-              print('Flutter: Received bookmark: ${bookmark.substring(0, (bookmark.length < 20 ? bookmark.length : 20))}...');
+              print(
+                'Flutter: Received bookmark: ${bookmark.substring(0, (bookmark.length < 20 ? bookmark.length : 20))}...',
+              );
             }
           }
         }
 
         if (newPathsFromSelection.isNotEmpty) {
           // 合并现有书签和新选择的书签，去重
-          final allBookmarksSet = {...currentBookmarks, ...newBookmarksFromSelection}.toList();
+          final allBookmarksSet =
+              {...currentBookmarks, ...newBookmarksFromSelection}.toList();
           await saveBookmarks(allBookmarksSet);
-          
+
           // 更新UI显示的路径列表 (也可以考虑只显示新选择的，或全部可访问的)
           // 这里我们先尝试恢复所有已知的，包括新添加的
           await restoreFolderAccess(); // 调用 restore 以便统一处理路径显示和访问验证
-
         } else {
-           print('Flutter: No valid folders selected or bookmarks generated.');
-           setState(() {
+          print('Flutter: No valid folders selected or bookmarks generated.');
+          setState(() {
             statusMessage = '未选择有效文件夹';
           });
         }
-
       } else {
-        print('Flutter: User cancelled folder selection or no folders returned.');
+        print(
+          'Flutter: User cancelled folder selection or no folders returned.',
+        );
         setState(() {
           // selectedFolders = []; // 清空或保持不变
           statusMessage = '用户取消选择或未返回文件夹';
@@ -152,11 +211,15 @@ class _MyHomePageState extends State<MyHomePage> {
         );
 
         if (result != null) {
-          final List<dynamic> successfulPathsDynamic = result['successfulPaths'] ?? [];
-          final List<String> successfulPaths = successfulPathsDynamic.map((e) => e.toString()).toList();
-          
-          final List<dynamic> failedBookmarksDynamic = result['failedBookmarks'] ?? [];
-          final List<String> failedBookmarks = failedBookmarksDynamic.map((e) => e.toString()).toList();
+          final List<dynamic> successfulPathsDynamic =
+              result['successfulPaths'] ?? [];
+          final List<String> successfulPaths =
+              successfulPathsDynamic.map((e) => e.toString()).toList();
+
+          final List<dynamic> failedBookmarksDynamic =
+              result['failedBookmarks'] ?? [];
+          final List<String> failedBookmarks =
+              failedBookmarksDynamic.map((e) => e.toString()).toList();
 
           setState(() {
             selectedFolders = successfulPaths;
@@ -168,34 +231,44 @@ class _MyHomePageState extends State<MyHomePage> {
             } else if (failedBookmarks.isNotEmpty) {
               statusMessage = '所有 ${bookmarks.length} 个已存书签均无法恢复访问。';
             } else {
-               statusMessage = '书签已加载，但未能解析任何路径。';
+              statusMessage = '书签已加载，但未能解析任何路径。';
             }
           });
-          print('Flutter: Successfully restored access for paths: $successfulPaths');
-          
+          print(
+            'Flutter: Successfully restored access for paths: $successfulPaths',
+          );
+
           if (failedBookmarks.isNotEmpty) {
-            print('Flutter: Failed to restore access for bookmarks: $failedBookmarks');
+            print(
+              'Flutter: Failed to restore access for bookmarks: $failedBookmarks',
+            );
             // 从 SharedPreferences 中移除无效的书签
             List<String> updatedBookmarks = List.from(bookmarks);
             updatedBookmarks.removeWhere((b) => failedBookmarks.contains(b));
             await saveBookmarks(updatedBookmarks);
-            print('Flutter: Removed ${failedBookmarks.length} invalid bookmarks from storage.');
+            print(
+              'Flutter: Removed ${failedBookmarks.length} invalid bookmarks from storage.',
+            );
           }
         } else {
-           print('Flutter: resolveBookmarks returned null result.');
-           setState(() {
-             selectedFolders = [];
-             statusMessage = '解析书签时原生方法未返回结果。';
-           });
+          print('Flutter: resolveBookmarks returned null result.');
+          setState(() {
+            selectedFolders = [];
+            statusMessage = '解析书签时原生方法未返回结果。';
+          });
         }
       } on PlatformException catch (e) {
-        print('Flutter: Failed to restore folder access: ${e.code} - ${e.message}');
+        print(
+          'Flutter: Failed to restore folder access: ${e.code} - ${e.message}',
+        );
         setState(() {
           selectedFolders = [];
           statusMessage = '恢复访问失败: ${e.message}';
         });
       } catch (e) {
-        print('Flutter: An unexpected error occurred during restoreFolderAccess: $e');
+        print(
+          'Flutter: An unexpected error occurred during restoreFolderAccess: $e',
+        );
         setState(() {
           selectedFolders = [];
           statusMessage = '恢复访问时发生未知错误';
@@ -209,79 +282,198 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
   }
-  
+
   // (可选) 清除所有书签的方法
   Future<void> clearAllBookmarks() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('bookmarks'); // 移除整个列表
     print('Flutter: All bookmarks cleared.');
     setState(() {
-        selectedFolders = [];
-        statusMessage = '所有书签已清除，请重新选择文件夹。';
+      selectedFolders = [];
+      statusMessage = '所有书签已清除，请重新选择文件夹。';
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // AppBar 样式由 ThemeData.appBarTheme 控制
         title: Text(widget.title),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.delete_sweep),
-            tooltip: '清除所有已存书签',
-            onPressed: clearAllBookmarks,
+          Tooltip(
+            message: '清除所有已存书签',
+            child: IconButton(
+              icon: const Icon(Icons.delete_sweep_outlined),
+              onPressed: clearAllBookmarks,
+              // IconButton 颜色会由 AppBar 的 IconTheme 控制
+            ),
           ),
         ],
       ),
-      body: Padding( // 使用 Padding 增加一些边距
-        padding: const EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          16.0,
+          16.0,
+          16.0,
+          0,
+        ), // 底部 padding 为 0，让列表滚动到底部
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start, // 从顶部开始
-          crossAxisAlignment: CrossAxisAlignment.stretch, // 使子项宽度充满
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(
-              '状态:',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              statusMessage,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: pickFolder,
-              child: const Text('选择文件夹并保存权限'),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: restoreFolderAccess,
-              child: const Text('尝试恢复已存文件夹权限'),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              '当前可访问的文件夹:',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 8),
-            Expanded( // 使用 Expanded 使 ListView 占据剩余空间
-              child: selectedFolders.isEmpty
-                  ? Center(child: Text('列表为空', style: Theme.of(context).textTheme.bodyMedium))
-                  : ListView.builder(
-                      itemCount: selectedFolders.length,
-                      itemBuilder: (context, index) {
-                        return Card( // 使用 Card 包装每个条目
-                          margin: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: ListTile(
-                            leading: Icon(Icons.folder_open, color: Theme.of(context).colorScheme.primary),
-                            title: Text(selectedFolders[index]),
-                          ),
-                        );
-                      },
+            // 状态信息卡片
+            Card(
+              color: colorScheme.surfaceContainerHighest, // 更适合 M3 的背景色
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '应用状态', // 更通用的标题
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    const SizedBox(height: 8),
+                    Text(
+                      statusMessage,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20), // 调整间距
+            // 操作按钮
+            FilledButton.icon(
+              icon: const Icon(Icons.create_new_folder_outlined),
+              label: const Text('选择并授权新文件夹'), // 更清晰的文本
+              onPressed: pickFolder,
+              // style 由 ThemeData.filledButtonTheme 控制
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              icon: const Icon(Icons.restore_page_outlined),
+              label: const Text('恢复已授权文件夹'),
+              onPressed: restoreFolderAccess,
+              // style 由 ThemeData.outlinedButtonTheme 控制
+            ),
+            const SizedBox(height: 24),
+
+            // 文件夹列表标题
+            Padding(
+              padding: const EdgeInsets.only(left: 4.0, bottom: 8.0), // 微调标题位置
+              child: Text(
+                '已授权文件夹', // 简化标题
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: colorScheme.onBackground,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+
+            // 文件夹列表
+            Expanded(
+              child:
+                  selectedFolders.isEmpty
+                      ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.folder_off_outlined,
+                                size: 56,
+                                color: colorScheme.outline,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                '暂无已授权的文件夹',
+                                style: theme.textTheme.headlineSmall?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '请点击上方按钮选择文件夹以开始使用。',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: colorScheme.outline,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                      : ListView.builder(
+                        padding: const EdgeInsets.only(
+                          bottom: 16.0,
+                        ), // 为列表底部增加 padding
+                        itemCount: selectedFolders.length,
+                        itemBuilder: (context, index) {
+                          final folderPath = selectedFolders[index];
+                          String folderName = folderPath;
+                          if (folderPath.contains('/')) {
+                            final parts = folderPath
+                                .split('/')
+                                .where((s) => s.isNotEmpty);
+                            if (parts.isNotEmpty) {
+                              folderName = parts.last;
+                            } else if (folderPath == '/') {
+                              folderName = '根目录';
+                            }
+                          } else if (folderPath.isEmpty) {
+                            folderName = '未知路径';
+                          }
+
+                          return Card(
+                            // CardTheme 已在 MyApp 中定义
+                            child: ListTile(
+                              // ListTileThemeData 已在 MyApp 中定义
+                              leading: Icon(
+                                Icons.folder_shared_outlined, // 更合适的图标
+                                size: 30,
+                                color: colorScheme.primary, // 突出显示图标
+                              ),
+                              title: Text(
+                                folderName,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: colorScheme.onSurface,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              subtitle: Text(
+                                folderPath,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              // trailing: IconButton( // 示例：移除按钮
+                              //   icon: Icon(Icons.remove_circle_outline, color: colorScheme.error),
+                              //   tooltip: '移除此文件夹授权',
+                              //   onPressed: () {
+                              //     // TODO: 实现移除单个文件夹的逻辑
+                              //     // 例如：_removeBookmarkForPath(folderPath);
+                              //   },
+                              // ),
+                            ),
+                          );
+                        },
+                      ),
             ),
           ],
         ),
