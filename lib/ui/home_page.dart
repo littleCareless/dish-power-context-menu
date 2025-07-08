@@ -40,7 +40,14 @@ class _MyHomePageState extends State<MyHomePage> {
       FinderMenuItem(title: '拷贝路径', type: 'copyPath', group: 'action'),
       FinderMenuItem(title: '新建文件夹', type: 'createNewFolder', group: 'action'),
 
-      // Group: newFile (initially empty, user can add)
+      // Group: newFile (常用文件类型)
+      FinderMenuItem(title: '新建 Markdown 文件', type: '.md', group: 'newFile'),
+      FinderMenuItem(title: '新建文本文件', type: '.txt', group: 'newFile'),
+      FinderMenuItem(title: '新建 Python 文件', type: '.py', group: 'newFile'),
+      FinderMenuItem(title: '新建 JavaScript 文件', type: '.js', group: 'newFile'),
+      FinderMenuItem(title: '新建 HTML 文件', type: '.html', group: 'newFile'),
+      FinderMenuItem(title: '新建 CSS 文件', type: '.css', group: 'newFile'),
+      FinderMenuItem(title: '新建 JSON 文件', type: '.json', group: 'newFile'),
 
       // Group: terminal (initially empty, user can add)
       FinderMenuItem(
@@ -465,7 +472,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       type = appController.text;
                       break;
                     case 'newFile':
-                      type = 'newFile:${valueController.text}';
+                      type = valueController.text;
                       break;
                     default:
                       type = '';

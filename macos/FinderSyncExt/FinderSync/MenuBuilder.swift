@@ -21,7 +21,7 @@ class MenuBuilder {
         // 过滤出不同分组的菜单项
         let appItems = allItems.enumerated().filter { ($0.element["group"] as? String) == "app" && ($0.element["enabled"] as? Int) == 1 }
         let actionItems = allItems.filter { ($0["group"] as? String) == "action" && ($0["enabled"] as? Int) == 1 }
-        let newFileItems = allItems.enumerated().filter { ($0.element["group"] as? String) == "new_file" && ($0.element["enabled"] as? Int) == 1 }
+        let newFileItems = allItems.enumerated().filter { ($0.element["group"] as? String) == "newFile" && ($0.element["enabled"] as? Int) == 1 }
         let terminalItems = allItems.enumerated().filter { ($0.element["group"] as? String) == "terminal" && ($0.element["enabled"] as? Int) == 1 }
 
         var itemsAdded = false

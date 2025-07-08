@@ -89,7 +89,20 @@ class FinderActionHandler {
         baseName = baseName.replacingOccurrences(of: "/", with: "-").replacingOccurrences(of: ":", with: "-")
         if baseName.isEmpty { baseName = "Untitled" }
 
-        let sanitizedFileType = fileType?.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: ".", with: "").replacingOccurrences(of: "/", with: "")
+        // 处理文件扩展名：统一处理不同的文件类型格式
+        var sanitizedFileType: String? = nil
+        if let ft = fileType?.trimmingCharacters(in: .whitespacesAndNewlines), !ft.isEmpty {
+            var actualExtension = ft
+            
+            // 处理 Flutter UI 中的 'newFile:.ext' 格式
+            if ft.hasPrefix("newFile:") {
+                actualExtension = String(ft.dropFirst(8)) // 移除 "newFile:" 前缀
+            }
+            
+            // 移除开头的点号（如果有的话），然后清理其他非法字符
+            let cleanExtension = actualExtension.hasPrefix(".") ? String(actualExtension.dropFirst()) : actualExtension
+            sanitizedFileType = cleanExtension.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: ":", with: "")
+        }
         
         var fileNameWithExtension: String
         if let ft = sanitizedFileType, !ft.isEmpty {

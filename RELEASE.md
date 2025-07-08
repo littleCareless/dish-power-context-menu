@@ -21,7 +21,7 @@ create-dmg \
   --icon-size 128 \
   --app-drop-link 380 150 \
   "build/macos/Build/Products/Release/DishPowerContextMenu.dmg" \
-  "build/macos/Build/Products/Release/dish-power-context-menu.app"
+  "build/macos/Build/Products/Release/DishPowerContextMenu.app"
 ```
 
 这将在 `build/macos/Build/Products/Release/` 目录下生成一个名为 `DishPowerContextMenu.dmg` 的文件。

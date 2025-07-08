@@ -36,6 +36,63 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
     NSLog("AppDelegate: Messager 系统设置完成")
   }
   
+  // 在指定目录打开终端应用
+  private func openTerminalInDirectory(_ directoryPath: String, bundleId: String) {
+    NSLog("AppDelegate: 在目录 \(directoryPath) 中打开终端应用 \(bundleId)")
+    
+    // 确保路径是目录路径，如果是文件则获取其父目录
+    var finalDirectoryPath = directoryPath
+    var isDirectory: ObjCBool = false
+    if FileManager.default.fileExists(atPath: directoryPath, isDirectory: &isDirectory) {
+      if !isDirectory.boolValue {
+        // 如果是文件，获取其父目录
+        finalDirectoryPath = URL(fileURLWithPath: directoryPath).deletingLastPathComponent().path
+        NSLog("AppDelegate: 检测到文件路径，转换为父目录: \(finalDirectoryPath)")
+      }
+    } else {
+      NSLog("AppDelegate: 文件或目录不存在: \(directoryPath)")
+      return
+    }
+    
+    // 使用 NSWorkspace.shared.open 方法直接在指定目录打开终端应用
+    NSLog("AppDelegate: 使用 NSWorkspace.shared.open 在目录中打开终端应用 \(bundleId)")
+    let directoryURL = URL(fileURLWithPath: finalDirectoryPath)
+    let configuration = NSWorkspace.OpenConfiguration()
+    
+    if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) {
+      NSWorkspace.shared.open([directoryURL], withApplicationAt: appURL, configuration: configuration) { app, error in
+        if let error = error {
+          NSLog("AppDelegate: 在目录中打开终端应用失败: \(error.localizedDescription)")
+        } else {
+          NSLog("AppDelegate: 成功在目录 \(finalDirectoryPath) 中打开终端应用")
+        }
+      }
+    } else {
+      NSLog("AppDelegate: 无法找到终端应用: \(bundleId)")
+    }
+  }
+  
+
+  // 用指定文件打开普通应用
+  private func openApplicationWithFile(_ filePath: String, bundleId: String) {
+    NSLog("AppDelegate: 用文件 \(filePath) 打开应用 \(bundleId)")
+    
+    let fileURL = URL(fileURLWithPath: filePath)
+    let configuration = NSWorkspace.OpenConfiguration()
+    
+    if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) {
+      NSWorkspace.shared.open([fileURL], withApplicationAt: appURL, configuration: configuration) { app, error in
+        if let error = error {
+          NSLog("AppDelegate: 用文件打开应用失败: \(error.localizedDescription)")
+        } else {
+          NSLog("AppDelegate: 成功用文件打开应用")
+        }
+      }
+    } else {
+      NSLog("AppDelegate: 找不到Bundle ID为 \(bundleId) 的应用")
+    }
+  }
+
   private func handleFinderMessage(payload: MessagePayload) {
     NSLog("AppDelegate: 处理 Finder 消息，动作: \(payload.action)")
     
@@ -61,21 +118,53 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
     case ActionType.openApp.rawValue:
       NSLog("AppDelegate: 处理打开应用动作，Bundle ID: \(payload.bundleId)")
       if !payload.bundleId.isEmpty {
-        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: payload.bundleId) {
-          let configuration = NSWorkspace.OpenConfiguration()
-          NSWorkspace.shared.openApplication(at: appURL, configuration: configuration) { app, error in
-            if let error = error {
-              NSLog("AppDelegate: 打开应用失败: \(error.localizedDescription)")
-            }
+        // 通过 itemData 中的 group 字段判断应用类型
+        let appGroup = payload.itemData["group"] ?? ""
+        
+        if appGroup == "terminal" {
+          // 终端应用：在指定目录中打开
+          NSLog("AppDelegate: 检测到终端应用，在目录中打开")
+          if let targetPath = payload.target.first {
+            openTerminalInDirectory(targetPath, bundleId: payload.bundleId)
+          } else {
+            NSLog("AppDelegate: 终端应用缺少目标路径")
           }
         } else {
-          NSLog("AppDelegate: 找不到Bundle ID为 \(payload.bundleId) 的应用")
+          // 普通应用：使用文件打开应用或直接启动
+          NSLog("AppDelegate: 检测到普通应用，使用标准方式打开")
+          if let targetPath = payload.target.first {
+            openApplicationWithFile(targetPath, bundleId: payload.bundleId)
+          } else {
+            // 如果没有目标文件，直接启动应用
+            if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: payload.bundleId) {
+              let configuration = NSWorkspace.OpenConfiguration()
+              NSWorkspace.shared.openApplication(at: appURL, configuration: configuration) { app, error in
+                if let error = error {
+                  NSLog("AppDelegate: 打开应用失败: \(error.localizedDescription)")
+                }
+              }
+            } else {
+              NSLog("AppDelegate: 找不到Bundle ID为 \(payload.bundleId) 的应用")
+            }
+          }
         }
       }
       
     case ActionType.createNewFile.rawValue:
       NSLog("AppDelegate: 处理创建新文件动作，文件类型: \(payload.fileType)")
-      // 这里可以添加创建新文件的逻辑
+      if let targetPath = payload.target.first, !targetPath.isEmpty {
+        // 构建参数字典，从 itemData 中提取相关信息
+        let params: [String: String] = payload.itemData
+        
+        // 调用 FinderActionHandler 来处理文件创建
+        FinderActionHandler.shared.performCreateFile(
+          targetDirectoryPath: targetPath,
+          fileType: payload.fileType,
+          params: params
+        )
+      } else {
+        NSLog("AppDelegate: 创建新文件失败 - 目标路径为空")
+      }
       
     default:
       NSLog("AppDelegate: 未知的动作类型: \(payload.action)")
