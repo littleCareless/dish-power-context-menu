@@ -1,5 +1,5 @@
-name: flutter_application_1
-description: "A new Flutter project."
+name: dish_power_context_menu
+description: "厌倦了在 Finder 中繁琐的文件操作？「DishPowerContextMenu」为您带来极致便捷的右键菜单体验！一键在终端或 VSCode 中打开文件/文件夹，快速复制路径，轻松创建常用文档。告别重复点击，大幅提升您的工作效率"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

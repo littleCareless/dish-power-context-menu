@@ -28,7 +28,19 @@
 		33CC10F32044A3C60003C045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33CC10F22044A3C60003C045 /* Assets.xcassets */; };
 		33CC10F62044A3C60003C045 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33CC10F42044A3C60003C045 /* MainMenu.xib */; };
 		33CC11132044BFA00003C045 /* MainFlutterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC11122044BFA00003C045 /* MainFlutterWindow.swift */; };
-		69EFAA7D2DF15EB40025463E /* menu.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 69EFAA752DF15EB40025463E /* menu.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		690E885C2E175DDD00C9BE5C /* FinderSyncExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 690E88542E175DDD00C9BE5C /* FinderSyncExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		693E01092E1747C9007252D8 /* AppDelegateInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E01072E1747C9007252D8 /* AppDelegateInterface.swift */; };
+		69492BC92E166EE3000AD192 /* FinderActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BC42E166EE3000AD192 /* FinderActionHandler.swift */; };
+		69492BCA2E166EE3000AD192 /* URLSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BC72E166EE3000AD192 /* URLSchemeHandler.swift */; };
+		69492BCB2E166EE3000AD192 /* FolderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BC62E166EE3000AD192 /* FolderHandler.swift */; };
+		69492BCD2E166EE3000AD192 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BC22E166EE3000AD192 /* AlertHandler.swift */; };
+		69492BCE2E166EE3000AD192 /* BookmarkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BC32E166EE3000AD192 /* BookmarkHandler.swift */; };
+		69492BCF2E166EE3000AD193 /* MenuConfigHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BD02E166EE3000AD194 /* MenuConfigHandler.swift */; };
+		699450B72E1CBC3200E9DE1A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450AE2E1CBC3200E9DE1A /* Configuration.swift */; };
+		699450B82E1CBC3200E9DE1A /* FinderSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450B22E1CBC3200E9DE1A /* FinderSync.swift */; };
+		699450B92E1CBC3200E9DE1A /* MenuItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450B02E1CBC3200E9DE1A /* MenuItemProvider.swift */; };
+		699450BA2E1CBC3200E9DE1A /* MenuBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450AF2E1CBC3200E9DE1A /* MenuBuilder.swift */; };
+		699450BB2E1CBC3200E9DE1A /* ActionDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450AD2E1CBC3200E9DE1A /* ActionDispatcher.swift */; };
 		DAB2B166CFDF19DCC0ADACC7 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20F00F9E4403CF5051D7D961 /* Pods_RunnerTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,12 +59,12 @@
 			remoteGlobalIDString = 33CC111A2044C6BA0003C045;
 			remoteInfo = FLX;
 		};
-		69EFAA7B2DF15EB40025463E /* PBXContainerItemProxy */ = {
+		690E885A2E175DDD00C9BE5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 33CC10E52044A3C60003C045 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 69EFAA742DF15EB40025463E;
-			remoteInfo = menu;
+			remoteGlobalIDString = 690E88532E175DDD00C9BE5C;
+			remoteInfo = test;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -73,7 +85,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				69EFAA7D2DF15EB40025463E /* menu.appex in Embed Foundation Extensions */,
+				690E885C2E175DDD00C9BE5C /* FinderSyncExt.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,7 +99,7 @@
 		331C80D7294CF71000263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		333000ED22D3DE5D00554162 /* Warnings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Warnings.xcconfig; sourceTree = "<group>"; };
 		335BBD1A22A9A15E00E9071D /* GeneratedPluginRegistrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedPluginRegistrant.swift; sourceTree = "<group>"; };
-		33CC10ED2044A3C60003C045 /* flutter_application_1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flutter_application_1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		33CC10ED2044A3C60003C045 /* dish-power-context-menu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dish-power-context-menu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33CC10F02044A3C60003C045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33CC10F22044A3C60003C045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Runner/Assets.xcassets; sourceTree = "<group>"; };
 		33CC10F52044A3C60003C045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -103,37 +115,28 @@
 		5E070E12DCCCF485656F89AC /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		6450DE7BF539E66C835A1075 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66297D8352878394D7C8C3F0 /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
-		69EFAA752DF15EB40025463E /* menu.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = menu.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		690E88542E175DDD00C9BE5C /* FinderSyncExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FinderSyncExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		693E01072E1747C9007252D8 /* AppDelegateInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateInterface.swift; sourceTree = "<group>"; };
+		693E014B2E17574E007252D8 /* FinderSync.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FinderSync.framework; path = System/Library/Frameworks/FinderSync.framework; sourceTree = SDKROOT; };
+		69492BC22E166EE3000AD192 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
+		69492BC32E166EE3000AD192 /* BookmarkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkHandler.swift; sourceTree = "<group>"; };
+		69492BC42E166EE3000AD192 /* FinderActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderActionHandler.swift; sourceTree = "<group>"; };
+		69492BC62E166EE3000AD192 /* FolderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHandler.swift; sourceTree = "<group>"; };
+		69492BC72E166EE3000AD192 /* URLSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeHandler.swift; sourceTree = "<group>"; };
+		69492BD02E166EE3000AD194 /* MenuConfigHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuConfigHandler.swift; sourceTree = "<group>"; };
+		699450AD2E1CBC3200E9DE1A /* ActionDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionDispatcher.swift; sourceTree = "<group>"; };
+		699450AE2E1CBC3200E9DE1A /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		699450AF2E1CBC3200E9DE1A /* MenuBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBuilder.swift; sourceTree = "<group>"; };
+		699450B02E1CBC3200E9DE1A /* MenuItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemProvider.swift; sourceTree = "<group>"; };
+		699450B22E1CBC3200E9DE1A /* FinderSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderSync.swift; sourceTree = "<group>"; };
+		699450B32E1CBC3200E9DE1A /* FinderSyncExt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinderSyncExt.entitlements; sourceTree = "<group>"; };
+		699450B42E1CBC3200E9DE1A /* FinderSyncExtProfile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinderSyncExtProfile.entitlements; sourceTree = "<group>"; };
+		699450B52E1CBC3200E9DE1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		980F8FEBB74ADB8FE2B4DD55 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		BD95C2127E5E4CED4D7BCA48 /* Pods-RunnerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		69EFAA822DF15EB40025463E /* Exceptions for "menu" folder in "menu" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 69EFAA742DF15EB40025463E /* menu */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		69EFAA762DF15EB40025463E /* menu */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				69EFAA822DF15EB40025463E /* Exceptions for "menu" folder in "menu" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = menu;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		331C80D2294CF70F00263BE5 /* Frameworks */ = {
@@ -152,7 +155,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		69EFAA722DF15EB40025463E /* Frameworks */ = {
+		690E88512E175DDD00C9BE5C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -184,10 +187,12 @@
 		33CC10E42044A3C60003C045 = {
 			isa = PBXGroup;
 			children = (
+				699450B62E1CBC3200E9DE1A /* FinderSyncExt */,
+				693E01082E1747C9007252D8 /* Shared */,
+				69492BC82E166EE3000AD192 /* Handlers */,
 				33FAB671232836740065AC1E /* Runner */,
 				33CEB47122A05771004F2AC0 /* Flutter */,
 				331C80D6294CF71000263BE5 /* RunnerTests */,
-				69EFAA762DF15EB40025463E /* menu */,
 				33CC10EE2044A3C60003C045 /* Products */,
 				D73912EC22F37F3D000D13A0 /* Frameworks */,
 				A458953AFAE52C7D49EAD440 /* Pods */,
@@ -197,9 +202,9 @@
 		33CC10EE2044A3C60003C045 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33CC10ED2044A3C60003C045 /* flutter_application_1.app */,
+				33CC10ED2044A3C60003C045 /* dish-power-context-menu.app */,
 				331C80D5294CF71000263BE5 /* RunnerTests.xctest */,
-				69EFAA752DF15EB40025463E /* menu.appex */,
+				690E88542E175DDD00C9BE5C /* FinderSyncExt.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -239,6 +244,50 @@
 			path = Runner;
 			sourceTree = "<group>";
 		};
+		693E01082E1747C9007252D8 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				693E01072E1747C9007252D8 /* AppDelegateInterface.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		69492BC82E166EE3000AD192 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				69492BC22E166EE3000AD192 /* AlertHandler.swift */,
+				69492BC32E166EE3000AD192 /* BookmarkHandler.swift */,
+				69492BC42E166EE3000AD192 /* FinderActionHandler.swift */,
+				69492BC62E166EE3000AD192 /* FolderHandler.swift */,
+				69492BC72E166EE3000AD192 /* URLSchemeHandler.swift */,
+				69492BD02E166EE3000AD194 /* MenuConfigHandler.swift */,
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
+		699450B12E1CBC3200E9DE1A /* FinderSync */ = {
+			isa = PBXGroup;
+			children = (
+				699450AD2E1CBC3200E9DE1A /* ActionDispatcher.swift */,
+				699450AE2E1CBC3200E9DE1A /* Configuration.swift */,
+				699450AF2E1CBC3200E9DE1A /* MenuBuilder.swift */,
+				699450B02E1CBC3200E9DE1A /* MenuItemProvider.swift */,
+			);
+			path = FinderSync;
+			sourceTree = "<group>";
+		};
+		699450B62E1CBC3200E9DE1A /* FinderSyncExt */ = {
+			isa = PBXGroup;
+			children = (
+				699450B12E1CBC3200E9DE1A /* FinderSync */,
+				699450B22E1CBC3200E9DE1A /* FinderSync.swift */,
+				699450B32E1CBC3200E9DE1A /* FinderSyncExt.entitlements */,
+				699450B42E1CBC3200E9DE1A /* FinderSyncExtProfile.entitlements */,
+				699450B52E1CBC3200E9DE1A /* Info.plist */,
+			);
+			path = FinderSyncExt;
+			sourceTree = "<group>";
+		};
 		A458953AFAE52C7D49EAD440 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +304,7 @@
 		D73912EC22F37F3D000D13A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				693E014B2E17574E007252D8 /* FinderSync.framework */,
 				6450DE7BF539E66C835A1075 /* Pods_Runner.framework */,
 				20F00F9E4403CF5051D7D961 /* Pods_RunnerTests.framework */,
 			);
@@ -300,31 +350,28 @@
 			);
 			dependencies = (
 				33CC11202044C79F0003C045 /* PBXTargetDependency */,
-				69EFAA7C2DF15EB40025463E /* PBXTargetDependency */,
+				690E885B2E175DDD00C9BE5C /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
-			productReference = 33CC10ED2044A3C60003C045 /* flutter_application_1.app */;
+			productReference = 33CC10ED2044A3C60003C045 /* dish-power-context-menu.app */;
 			productType = "com.apple.product-type.application";
 		};
-		69EFAA742DF15EB40025463E /* menu */ = {
+		690E88532E175DDD00C9BE5C /* FinderSyncExt */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 69EFAA832DF15EB40025463E /* Build configuration list for PBXNativeTarget "menu" */;
+			buildConfigurationList = 690E885E2E175DDD00C9BE5C /* Build configuration list for PBXNativeTarget "FinderSyncExt" */;
 			buildPhases = (
-				69EFAA712DF15EB40025463E /* Sources */,
-				69EFAA722DF15EB40025463E /* Frameworks */,
-				69EFAA732DF15EB40025463E /* Resources */,
+				690E88502E175DDD00C9BE5C /* Sources */,
+				690E88512E175DDD00C9BE5C /* Frameworks */,
+				690E88522E175DDD00C9BE5C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				69EFAA762DF15EB40025463E /* menu */,
-			);
-			name = menu;
-			productName = menu;
-			productReference = 69EFAA752DF15EB40025463E /* menu.appex */;
+			name = FinderSyncExt;
+			productName = test;
+			productReference = 690E88542E175DDD00C9BE5C /* FinderSyncExt.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -345,7 +392,6 @@
 					33CC10EC2044A3C60003C045 = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 1100;
-						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -356,7 +402,7 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
 					};
-					69EFAA742DF15EB40025463E = {
+					690E88532E175DDD00C9BE5C = {
 						CreatedOnToolsVersion = 16.3;
 					};
 				};
@@ -377,7 +423,7 @@
 				33CC10EC2044A3C60003C045 /* Runner */,
 				331C80D4294CF70F00263BE5 /* RunnerTests */,
 				33CC111A2044C6BA0003C045 /* Flutter Assemble */,
-				69EFAA742DF15EB40025463E /* menu */,
+				690E88532E175DDD00C9BE5C /* FinderSyncExt */,
 			);
 		};
 /* End PBXProject section */
@@ -399,7 +445,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		69EFAA732DF15EB40025463E /* Resources */ = {
+		690E88522E175DDD00C9BE5C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -411,7 +457,6 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3399D490228B24CF009A79C7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -499,9 +544,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -524,15 +573,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				33CC11132044BFA00003C045 /* MainFlutterWindow.swift in Sources */,
+				69492BC92E166EE3000AD192 /* FinderActionHandler.swift in Sources */,
+				69492BCA2E166EE3000AD192 /* URLSchemeHandler.swift in Sources */,
+				69492BCB2E166EE3000AD192 /* FolderHandler.swift in Sources */,
+				69492BCD2E166EE3000AD192 /* AlertHandler.swift in Sources */,
+				693E01092E1747C9007252D8 /* AppDelegateInterface.swift in Sources */,
+				69492BCE2E166EE3000AD192 /* BookmarkHandler.swift in Sources */,
+				69492BCF2E166EE3000AD193 /* MenuConfigHandler.swift in Sources */,
 				33CC10F12044A3C60003C045 /* AppDelegate.swift in Sources */,
 				335BBD1B22A9A15E00E9071D /* GeneratedPluginRegistrant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		69EFAA712DF15EB40025463E /* Sources */ = {
+		690E88502E175DDD00C9BE5C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				699450B72E1CBC3200E9DE1A /* Configuration.swift in Sources */,
+				699450B82E1CBC3200E9DE1A /* FinderSync.swift in Sources */,
+				699450B92E1CBC3200E9DE1A /* MenuItemProvider.swift in Sources */,
+				699450BA2E1CBC3200E9DE1A /* MenuBuilder.swift in Sources */,
+				699450BB2E1CBC3200E9DE1A /* ActionDispatcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,10 +610,10 @@
 			target = 33CC111A2044C6BA0003C045 /* Flutter Assemble */;
 			targetProxy = 33CC111F2044C79F0003C045 /* PBXContainerItemProxy */;
 		};
-		69EFAA7C2DF15EB40025463E /* PBXTargetDependency */ = {
+		690E885B2E175DDD00C9BE5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 69EFAA742DF15EB40025463E /* menu */;
-			targetProxy = 69EFAA7B2DF15EB40025463E /* PBXContainerItemProxy */;
+			target = 690E88532E175DDD00C9BE5C /* FinderSyncExt */;
+			targetProxy = 690E885A2E175DDD00C9BE5C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -581,7 +642,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterApplication1.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flutter_application_1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/flutter_application_1";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dish-power-context-menu.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/dish-power-context-menu";
 			};
 			name = Debug;
 		};
@@ -597,7 +658,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterApplication1.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flutter_application_1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/flutter_application_1";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dish-power-context-menu.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/dish-power-context-menu";
 			};
 			name = Release;
 		};
@@ -613,7 +674,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterApplication1.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flutter_application_1.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/flutter_application_1";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dish-power-context-menu.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/dish-power-context-menu";
 			};
 			name = Profile;
 		};
@@ -658,7 +719,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -673,15 +734,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/DebugProfile.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = NCHS3KQDN3;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smileserv.findermenu.app;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Profile;
@@ -690,6 +756,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Profile;
@@ -741,7 +808,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -791,7 +858,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -806,15 +873,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/DebugProfile.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = NCHS3KQDN3;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smileserv.findermenu.app;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -827,15 +899,22 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Release.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = NCHS3KQDN3;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smileserv.findermenu.app;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -844,6 +923,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -852,11 +932,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
-		69EFAA7F2DF15EB40025463E /* Debug */ = {
+		690E885F2E175DDD00C9BE5C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -868,17 +949,21 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = menu/menu.entitlements;
+				CODE_SIGN_ENTITLEMENTS = FinderSyncExt/FinderSyncExt.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NCHS3KQDN3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = menu/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = menu;
+				INFOPLIST_FILE = FinderSyncExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FinderSyncExt;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -886,12 +971,13 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.4;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterApplication1.menu;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smileserv.findermenu.app.FinderMenuExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -899,7 +985,7 @@
 			};
 			name = Debug;
 		};
-		69EFAA802DF15EB40025463E /* Release */ = {
+		690E88602E175DDD00C9BE5C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -911,17 +997,21 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = menu/menu.entitlements;
+				CODE_SIGN_ENTITLEMENTS = FinderSyncExt/FinderSyncExt.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NCHS3KQDN3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = menu/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = menu;
+				INFOPLIST_FILE = FinderSyncExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FinderSyncExt;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -929,18 +1019,19 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.4;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterApplication1.menu;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smileserv.findermenu.app.FinderMenuExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		69EFAA812DF15EB40025463E /* Profile */ = {
+		690E88612E175DDD00C9BE5C /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -952,17 +1043,21 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = menu/menu.entitlements;
+				CODE_SIGN_ENTITLEMENTS = FinderSyncExt/FinderSyncExtProfile.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NCHS3KQDN3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = menu/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = menu;
+				INFOPLIST_FILE = FinderSyncExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FinderSyncExt;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -970,11 +1065,12 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.4;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterApplication1.menu;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smileserv.findermenu.app.FinderMenuExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1024,12 +1120,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		69EFAA832DF15EB40025463E /* Build configuration list for PBXNativeTarget "menu" */ = {
+		690E885E2E175DDD00C9BE5C /* Build configuration list for PBXNativeTarget "FinderSyncExt" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				69EFAA7F2DF15EB40025463E /* Debug */,
-				69EFAA802DF15EB40025463E /* Release */,
-				69EFAA812DF15EB40025463E /* Profile */,
+				690E885F2E175DDD00C9BE5C /* Debug */,
+				690E88602E175DDD00C9BE5C /* Release */,
+				690E88612E175DDD00C9BE5C /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

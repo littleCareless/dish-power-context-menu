@@ -9,25 +9,7 @@ class MainFlutterWindow: NSWindow {
     self.contentViewController = flutterViewController
     self.setFrame(windowFrame, display: true)
 
-    let batteryChannel = FlutterMethodChannel(
-      name: "flutter_native_channel",
-      binaryMessenger: flutterViewController.engine.binaryMessenger)
-    batteryChannel.setMethodCallHandler { (call, result) in
-      switch call.method {
-      case "getBatteryLevel":
-        guard let level = getBatteryLevel() else {
-          result(
-            FlutterError(
-              code: "UNAVAILABLE",
-              message: "Battery level not available",
-              details: nil))
-          return
-        }
-        result(level)
-      default:
-        result(FlutterMethodNotImplemented)
-      }
-    }
+    // 方法通道现在在 AppDelegate 中设置，避免重复设置
 
     RegisterGeneratedPlugins(registry: flutterViewController)
 
