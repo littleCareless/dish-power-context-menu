@@ -3,6 +3,7 @@ import FinderSync
 
 // 负责从 Flutter 获取菜单项配置，并提供菜单项数据
 class MenuItemProvider {
+    private static let messager = Messager.shared
     // 默认菜单项，确保在从 Flutter 加载动态配置之前，菜单不会为空
     static var finderMenuItems: [[String: Any]] = [
         [
@@ -48,30 +49,46 @@ class MenuItemProvider {
             return
         }
         
+        // 使用新的 Messager 系统监听菜单更新
+        messager.on(name: Messager.NotificationNames.menuUpdate) { payload in
+            NSLog("菜单项提供器: 从主应用收到菜单项更新。")
+            if let items = payload.menuItems {
+                MenuItemProvider.finderMenuItems = items
+                NSLog("菜单项提供器: 更新了菜单项: \(items)")
+                
+                // 将更新的菜单项持久化到 UserDefaults
+                if let defaults = UserDefaults(suiteName: suiteName) {
+                    defaults.set(items, forKey: menuItemsKey)
+                    if defaults.synchronize() {
+                        NSLog("菜单项提供器: 已将更新的菜单项持久化到 UserDefaults。")
+                    } else {
+                        NSLog("菜单项提供器: 同步更新的菜单项到 UserDefaults 失败。")
+                    }
+                }
+            } else {
+                NSLog("菜单项提供器: 收到的消息中没有菜单项数据。")
+            }
+        }
+        
+        // 保持对旧通知系统的兼容性（可选）
         observer = DistributedNotificationCenter.default().addObserver(
             forName: NSNotification.Name("FinderMenuItemsUpdate"),
             object: nil,
             queue: .main) { notification in
-                NSLog("菜单项提供器: 从 Flutter 收到 Finder 菜单项更新。")
+                NSLog("菜单项提供器: 从旧通知系统收到菜单项更新。")
                 if let userInfo = notification.userInfo,
                    let items = userInfo["menuItems"] as? [[String: Any]] {
                     MenuItemProvider.finderMenuItems = items
-                    NSLog("菜单项提供器: 从通知的 userInfo 更新了菜单项: \(items)")
+                    NSLog("菜单项提供器: 从旧通知系统更新了菜单项: \(items)")
                     
-                    // Also, save the updated items back to UserDefaults to persist them.
                     if let defaults = UserDefaults(suiteName: suiteName) {
                         defaults.set(items, forKey: menuItemsKey)
-                        if defaults.synchronize() {
-                            NSLog("菜单项提供器: 已将更新的菜单项持久化到 UserDefaults。")
-                        } else {
-                            NSLog("菜单项提供器: 同步更新的菜单项到 UserDefaults 失败。")
-                        }
+                        defaults.synchronize()
                     }
-                } else {
-                    NSLog("菜单项提供器: 在 FinderMenuItemsUpdate 通知的 userInfo 中收到无效或无数据。")
                 }
         }
-        NSLog("菜单项提供器: 已开始观察菜单更新。")
+        
+        NSLog("菜单项提供器: 已开始观察菜单更新（新旧系统兼容）。")
     }
 
     static func stopObserving() {

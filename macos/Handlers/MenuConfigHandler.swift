@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 
 class MenuConfigHandler {
     static let shared = MenuConfigHandler()
+    private let messager = Messager.shared
     
     // NOTE: Replace "group.fe.com.smileserv.findermenu.app" with your actual App Group ID.
     private let suiteName = "group.fe.com.smileserv.findermenu.app"
@@ -26,13 +27,17 @@ class MenuConfigHandler {
             NSLog("MenuConfigHandler: Failed to synchronize UserDefaults.")
         }
         
-        // Post a notification to inform the Finder Sync extension of the update.
+        // 使用新的 Messager 系统发送菜单更新
+        messager.sendMenuUpdate(menuItems: menuItems)
+        NSLog("MenuConfigHandler: 通过 Messager 系统发送菜单更新")
+        
+        // 保持对旧通知系统的兼容性（可选）
         DistributedNotificationCenter.default().post(
             name: NSNotification.Name("FinderMenuItemsUpdate"),
             object: nil,
             userInfo: ["menuItems": menuItems]
         )
-        NSLog("MenuConfig_handler: Posted notification for menu items update.")
+        NSLog("MenuConfigHandler: 同时发送旧格式通知以保持兼容性")
         
         result(nil) // Success
     }

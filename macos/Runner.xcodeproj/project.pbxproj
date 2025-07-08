@@ -40,6 +40,7 @@
 		699450B92E1CBC3200E9DE1A /* MenuItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450B02E1CBC3200E9DE1A /* MenuItemProvider.swift */; };
 		699450BA2E1CBC3200E9DE1A /* MenuBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450AF2E1CBC3200E9DE1A /* MenuBuilder.swift */; };
 		699450BB2E1CBC3200E9DE1A /* ActionDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450AD2E1CBC3200E9DE1A /* ActionDispatcher.swift */; };
+		699450BC2E1CBC3200E9DE1B /* Messager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450BC2E1CBC3200E9DE1C /* Messager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,7 @@
 		699450B32E1CBC3200E9DE1A /* FinderSyncExt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinderSyncExt.entitlements; sourceTree = "<group>"; };
 		699450B42E1CBC3200E9DE1A /* FinderSyncExtProfile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinderSyncExtProfile.entitlements; sourceTree = "<group>"; };
 		699450B52E1CBC3200E9DE1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		699450BC2E1CBC3200E9DE1C /* Messager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messager.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		980F8FEBB74ADB8FE2B4DD55 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				693E01072E1747C9007252D8 /* AppDelegateInterface.swift */,
+				699450BC2E1CBC3200E9DE1C /* Messager.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				69492BCF2E166EE3000AD193 /* MenuConfigHandler.swift in Sources */,
 				33CC10F12044A3C60003C045 /* AppDelegate.swift in Sources */,
 				335BBD1B22A9A15E00E9071D /* GeneratedPluginRegistrant.swift in Sources */,
+				699450BC2E1CBC3200E9DE1B /* Messager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +505,7 @@
 				699450B92E1CBC3200E9DE1A /* MenuItemProvider.swift in Sources */,
 				699450BA2E1CBC3200E9DE1A /* MenuBuilder.swift in Sources */,
 				699450BB2E1CBC3200E9DE1A /* ActionDispatcher.swift in Sources */,
+				699450BC2E1CBC3200E9DE1B /* Messager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

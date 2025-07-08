@@ -15,11 +15,71 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
   private var shouldStayInBackground = false
   private let mainApplicationURLScheme = "dishapp" // 新增：与 FinderSync 扩展中一致的 URL Scheme
   private var methodChannelSetup = false // 标记方法通道是否已设置
+  private let urlSchemeHandler = URLSchemeHandler()
+  private let messager = Messager.shared
 
   override func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
     // 保持应用在后台运行以处理 URL Scheme
     NSLog("AppDelegate: applicationShouldTerminateAfterLastWindowClosed 被调用，返回 false 以保持应用运行")
     return false
+  }
+  
+  private func setupMessager() {
+    NSLog("AppDelegate: 设置 Messager 系统")
+    
+    // 监听来自 Finder 扩展的消息
+    messager.on(name: Messager.NotificationNames.finderToMain) { [weak self] payload in
+      NSLog("AppDelegate: 收到来自 Finder 扩展的消息: \(payload.description)")
+      self?.handleFinderMessage(payload: payload)
+    }
+    
+    NSLog("AppDelegate: Messager 系统设置完成")
+  }
+  
+  private func handleFinderMessage(payload: MessagePayload) {
+    NSLog("AppDelegate: 处理 Finder 消息，动作: \(payload.action)")
+    
+    switch payload.action {
+    case ActionType.open.rawValue:
+      NSLog("AppDelegate: 处理打开主应用动作")
+      DispatchQueue.main.async {
+        NSApp.activate(ignoringOtherApps: true)
+        if let window = self.mainFlutterWindow {
+          window.makeKeyAndOrderFront(nil)
+        }
+      }
+      
+    case ActionType.copyPath.rawValue:
+      NSLog("AppDelegate: 处理复制路径动作，目标: \(payload.target)")
+      if let path = payload.target.first {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(path, forType: .string)
+        NSLog("AppDelegate: 已复制路径到剪贴板: \(path)")
+      }
+      
+    case ActionType.openApp.rawValue:
+      NSLog("AppDelegate: 处理打开应用动作，Bundle ID: \(payload.bundleId)")
+      if !payload.bundleId.isEmpty {
+        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: payload.bundleId) {
+          let configuration = NSWorkspace.OpenConfiguration()
+          NSWorkspace.shared.openApplication(at: appURL, configuration: configuration) { app, error in
+            if let error = error {
+              NSLog("AppDelegate: 打开应用失败: \(error.localizedDescription)")
+            }
+          }
+        } else {
+          NSLog("AppDelegate: 找不到Bundle ID为 \(payload.bundleId) 的应用")
+        }
+      }
+      
+    case ActionType.createNewFile.rawValue:
+      NSLog("AppDelegate: 处理创建新文件动作，文件类型: \(payload.fileType)")
+      // 这里可以添加创建新文件的逻辑
+      
+    default:
+      NSLog("AppDelegate: 未知的动作类型: \(payload.action)")
+    }
   }
 
   override func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
@@ -42,6 +102,9 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
     NSLog("AppDelegate: applicationDidFinishLaunching 开始调用")
     // super.applicationDidFinishLaunching(notification)
     NSLog("AppDelegate: applicationDidFinishLaunching 已调用。")
+    
+    // 初始化 Messager 系统
+    setupMessager()
     
     // 立即尝试设置方法通道
     self.setupMethodChannel()

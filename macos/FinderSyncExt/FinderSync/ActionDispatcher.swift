@@ -3,6 +3,7 @@ import FinderSync
 
 // 用于将所有菜单操作分派给主应用程序
 class ActionDispatcher {
+    private static let messager = Messager.shared
 
     // 获取当前选定的目标 URL
     private static func getTargetURL() -> URL? {
@@ -13,34 +14,30 @@ class ActionDispatcher {
 
     // 发送打开主应用的动作
     static func sendOpenAppAction() {
-        var urlString = "\(Configuration.mainApplicationURLScheme)://open"
-        if let path = getTargetURL()?.path, let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-            urlString += "?path=\(encodedPath)"
+        NSLog("动作分发器: 发送打开主应用动作")
+        
+        var target: [String] = []
+        if let path = getTargetURL()?.path {
+            target = [path]
         }
         
-        guard let url = URL(string: urlString) else {
-            NSLog("动作分发器: 用于打开主应用的 URL 无效: \(urlString)")
-            return
-        }
-
-        // 尝试通过 URL Scheme 打开
-        if !NSWorkspace.shared.open(url) {
-            NSLog("动作分发器: 使用 URL 打开主应用失败: \(urlString)。尝试使用 Bundle ID 作为后备方案。")
-            // 如果 URL Scheme 失败，则回退到通过 Bundle ID 启动
-            if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: Configuration.mainApplicationBundleID) {
-                let configuration = NSWorkspace.OpenConfiguration()
-                NSWorkspace.shared.openApplication(at: appURL, configuration: configuration, completionHandler: { (app, error) in
-                    if let error = error {
-                        NSLog("动作分发器: 通过 Bundle ID 启动主应用失败: \(Configuration.mainApplicationBundleID)。错误: \(error.localizedDescription)")
-                    } else {
-                        NSLog("动作分发器: 通过 Bundle ID 成功启动主应用: \(Configuration.mainApplicationBundleID)。")
-                    }
-                })
-            } else {
-                 NSLog("动作分发器: 无法通过 Bundle ID 找到主应用: \(Configuration.mainApplicationBundleID)。")
-            }
+        messager.sendToMainApp(
+            action: ActionType.open,
+            target: target
+        )
+        
+        // 同时尝试启动主应用（如果未运行）
+        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: Configuration.mainApplicationBundleID) {
+            let configuration = NSWorkspace.OpenConfiguration()
+            NSWorkspace.shared.openApplication(at: appURL, configuration: configuration, completionHandler: { (app, error) in
+                if let error = error {
+                    NSLog("动作分发器: 通过 Bundle ID 启动主应用失败: \(Configuration.mainApplicationBundleID)。错误: \(error.localizedDescription)")
+                } else {
+                    NSLog("动作分发器: 通过 Bundle ID 成功启动主应用: \(Configuration.mainApplicationBundleID)。")
+                }
+            })
         } else {
-            NSLog("动作分发器: 已尝试使用 URL 打开主应用: \(urlString)")
+             NSLog("动作分发器: 无法通过 Bundle ID 找到主应用: \(Configuration.mainApplicationBundleID)。")
         }
     }
 
@@ -52,19 +49,10 @@ class ActionDispatcher {
             return
         }
         
-        guard let encodedPath = targetURL.path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            NSLog("动作分发器: 无法为拷贝路径操作编码路径: \(targetURL.path)")
-            return
-        }
-
-        let urlString = "\(Configuration.mainApplicationURLScheme)://action?type=copyPath&path=\(encodedPath)"
-        if let url = URL(string: urlString) {
-            if !NSWorkspace.shared.open(url) {
-                NSLog("动作分发器: 通过 URL 发送 '拷贝路径' 命令失败: \(url.absoluteString)")
-            } else {
-                NSLog("动作分发器: 已通过 URL 发送 '拷贝路径' 命令: \(url.absoluteString)")
-            }
-        }
+        messager.sendToMainApp(
+            action: ActionType.copyPath,
+            target: [targetURL.path]
+        )
     }
 
     // 发送应用特定动作
@@ -75,36 +63,24 @@ class ActionDispatcher {
             return
         }
 
-        guard let encodedPath = targetURL.path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            NSLog("动作分发器: 无法为应用操作编码路径: \(targetURL.path)")
-            return
-        }
-
-        var urlComponents = URLComponents(string: "\(Configuration.mainApplicationURLScheme)://action")
-        var queryItems = [URLQueryItem(name: "type", value: itemData["group"] as? String),
-                          URLQueryItem(name: "bundleId", value: bundleId),
-                          URLQueryItem(name: "path", value: encodedPath)]
-
+        // 转换 itemData 为 [String: String] 格式
+        var stringItemData: [String: String] = [:]
         for (key, value) in itemData {
-            if key != "type", key != "path", key != "bundleId" {
-                if let stringValue = (value as? String)?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                    queryItems.append(URLQueryItem(name: key, value: stringValue))
-                } else if let intValue = value as? Int {
-                    queryItems.append(URLQueryItem(name: key, value: String(intValue)))
-                }
+            if let stringValue = value as? String {
+                stringItemData[key] = stringValue
+            } else if let intValue = value as? Int {
+                stringItemData[key] = String(intValue)
+            } else if let boolValue = value as? Bool {
+                stringItemData[key] = String(boolValue)
             }
         }
-        urlComponents?.queryItems = queryItems
-
-        if let url = urlComponents?.url {
-            if !NSWorkspace.shared.open(url) {
-                NSLog("动作分发器: 通过 URL 发送应用操作命令失败: \(url.absoluteString)")
-            } else {
-                NSLog("动作分发器: 已通过 URL 发送应用操作命令: \(url.absoluteString)")
-            }
-        } else {
-            NSLog("动作分发器: 应用操作的 URL 无效。")
-        }
+        
+        messager.sendToMainApp(
+            action: ActionType.openApp,
+            target: [targetURL.path],
+            bundleId: bundleId,
+            itemData: stringItemData
+        )
     }
 
     // 发送创建新文件的动作
@@ -119,36 +95,28 @@ class ActionDispatcher {
             }
         }
 
-        guard let directoryPath = targetDirectoryPath,
-              let encodedDirectoryPath = directoryPath.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            NSLog("动作分发器: 无法确定或编码用于创建文件的目标目录。")
+        guard let directoryPath = targetDirectoryPath else {
+            NSLog("动作分发器: 无法确定用于创建文件的目标目录。")
             return
         }
 
-        var urlComponents = URLComponents(string: "\(Configuration.mainApplicationURLScheme)://action")
-        var queryItems = [URLQueryItem(name: "type", value: "createNewFile"),
-                          URLQueryItem(name: "fileType", value: fileType),
-                          URLQueryItem(name: "directoryPath", value: encodedDirectoryPath)]
-        
+        // 转换 itemData 为 [String: String] 格式
+        var stringItemData: [String: String] = [:]
         for (key, value) in itemData {
-            if key != "type" {
-                if let stringValue = (value as? String)?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                    queryItems.append(URLQueryItem(name: key, value: stringValue))
-                } else if let intValue = value as? Int {
-                    queryItems.append(URLQueryItem(name: key, value: String(intValue)))
-                }
+            if let stringValue = value as? String {
+                stringItemData[key] = stringValue
+            } else if let intValue = value as? Int {
+                stringItemData[key] = String(intValue)
+            } else if let boolValue = value as? Bool {
+                stringItemData[key] = String(boolValue)
             }
         }
-        urlComponents?.queryItems = queryItems
-
-        if let url = urlComponents?.url {
-            if !NSWorkspace.shared.open(url) {
-                NSLog("动作分发器: 通过 URL 发送 '创建新文件' 命令失败: \(url.absoluteString)")
-            } else {
-                NSLog("动作分发器: 已通过 URL 发送 '创建新文件' 命令: \(url.absoluteString)")
-            }
-        } else {
-            NSLog("动作分发器: 用于创建新文件的 URL 无效。")
-        }
+        
+        messager.sendToMainApp(
+            action: ActionType.createNewFile,
+            target: [directoryPath],
+            fileType: fileType,
+            itemData: stringItemData
+        )
     }
 }
