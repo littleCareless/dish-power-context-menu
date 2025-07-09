@@ -31,10 +31,15 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  # UI & Icons
   cupertino_icons: ^1.0.8
+  
+  # Data Persistence
   shared_preferences: ^2.5.3
+  
+  # Platform Integration & UI Effects
+  # flutter/services and dart:ui are built-in Flutter libraries
+  # Used for MethodChannel communication and BackdropFilter effects
 
 dev_dependencies:
   flutter_test:
