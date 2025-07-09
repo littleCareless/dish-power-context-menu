@@ -8,6 +8,12 @@ class MainFlutterWindow: NSWindow {
     let windowFrame = self.frame
     self.contentViewController = flutterViewController
     self.setFrame(windowFrame, display: true)
+    
+    // 设置窗口最小尺寸
+    self.minSize = NSSize(width: 800, height: 600)
+    
+    // 设置窗口标题
+    self.title = "R-Finder Menu"
 
     // 方法通道现在在 AppDelegate 中设置，避免重复设置
 
