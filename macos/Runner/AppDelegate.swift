@@ -17,6 +17,7 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
   private var methodChannelSetup = false // 标记方法通道是否已设置
   private let urlSchemeHandler = URLSchemeHandler()
   private let messager = Messager.shared
+  private var messagerObserver: NSObjectProtocol?
 
   override func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
     // 保持应用在后台运行以处理 URL Scheme
@@ -28,7 +29,7 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
     NSLog("AppDelegate: 设置 Messager 系统")
     
     // 监听来自 Finder 扩展的消息
-    messager.on(name: Messager.NotificationNames.finderToMain) { [weak self] payload in
+    messagerObserver = messager.on(name: Messager.NotificationNames.finderToMain) { [weak self] payload in
       NSLog("AppDelegate: 收到来自 Finder 扩展的消息: \(payload.description)")
       self?.handleFinderMessage(payload: payload)
     }
@@ -166,6 +167,26 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
         NSLog("AppDelegate: 创建新文件失败 - 目标路径为空")
       }
       
+    case ActionType.directoryAuthorized.rawValue:
+      NSLog("AppDelegate: 处理目录授权动作，路径: \(payload.target)")
+      if let authorizedPath = payload.target.first {
+        NSLog("AppDelegate: 新授权的目录: \(authorizedPath)")
+        
+        // 通知Flutter应用有新的目录被授权
+        DispatchQueue.main.async {
+          // 通过方法通道通知Flutter应用刷新授权目录列表
+          self.notifyFlutterDirectoryAuthorized(path: authorizedPath)
+          
+          // 激活主窗口让用户看到更新
+          NSApp.activate(ignoringOtherApps: true)
+          if let window = self.mainFlutterWindow {
+            window.makeKeyAndOrderFront(nil)
+          }
+        }
+      } else {
+        NSLog("AppDelegate: 目录授权动作缺少目标路径")
+      }
+      
     default:
       NSLog("AppDelegate: 未知的动作类型: \(payload.action)")
     }
@@ -259,7 +280,64 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
                 result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments for resolveBookmarks", details: nil))
                 return
             }
-            BookmarkHandler.shared.resolveBookmarks(bookmarksBase64: bookmarksBase64, finderMenuItems: finderMenuItems, result: result)
+            // 使用 SecurityBookmarkManager 进行迁移和书签解析
+            SecurityBookmarkManager.shared.migrateLegacyData()
+            
+            // 直接使用 SecurityBookmarkManager 解析书签
+            var successfulPaths: [String] = []
+            var failedBookmarks: [String] = []
+            
+            for bookmarkBase64 in bookmarksBase64 {
+                guard let bookmarkData = Data(base64Encoded: bookmarkBase64) else {
+                    NSLog("AppDelegate: 无效的书签数据 (非 base64): \(bookmarkBase64)")
+                    failedBookmarks.append(bookmarkBase64)
+                    continue
+                }
+                
+                if let resolvedURL = SecurityBookmarkManager.shared.resolveBookmarkData(bookmarkData) {
+                    NSLog("AppDelegate: 成功解析书签: \(resolvedURL.path)")
+                    successfulPaths.append(resolvedURL.path)
+                } else {
+                    NSLog("AppDelegate: 解析书签失败: \(bookmarkBase64)")
+                    failedBookmarks.append(bookmarkBase64)
+                }
+            }
+            
+            // 返回解析结果
+            let resolveResult = [
+                "successfulPaths": successfulPaths,
+                "failedBookmarks": failedBookmarks
+            ]
+            result(resolveResult)
+            
+            // 发送通知给 FinderSync 扩展
+            let userInfo = ["items": finderMenuItems]
+            DistributedNotificationCenter.default().post(
+                name: NSNotification.Name("FinderMenuItemsUpdate"),
+                object: nil,
+                userInfo: userInfo
+            )
+            NSLog("AppDelegate: 已发送 FinderMenuItemsUpdate 通知")
+        case "addAuthorizedDirectory":
+            guard let args = call.arguments as? [String: Any],
+                  let path = args["path"] as? String else {
+                result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments for addAuthorizedDirectory", details: nil))
+                return
+            }
+            let displayName = args["displayName"] as? String
+            let success = SecurityBookmarkManager.shared.addAuthorizedDirectory(path: path, displayName: displayName)
+            result(success)
+        case "removeAuthorizedDirectory":
+            guard let args = call.arguments as? [String: Any],
+                  let path = args["path"] as? String else {
+                result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments for removeAuthorizedDirectory", details: nil))
+                return
+            }
+            let success = SecurityBookmarkManager.shared.removeAuthorizedDirectory(path)
+            result(success)
+        case "getAuthorizedDirectories":
+            let directories = SecurityBookmarkManager.shared.getAuthorizedDirectories()
+            result(directories)
         case "saveMenuItems":
             guard let args = call.arguments as? [String: Any],
                   let menuItems = args["menuItems"] as? [[String: Any]] else {
@@ -272,6 +350,14 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
             MenuConfigHandler.shared.loadMenuItems(result: result)
         case "pickApplication":
             MenuConfigHandler.shared.pickApplication(result: result)
+        case "validateBookmarks":
+            // 验证并清理无效的书签
+            SecurityBookmarkManager.shared.validateAndCleanupBookmarks()
+            result(true)
+        case "clearAllBookmarks":
+            // 清除所有书签数据
+            let success = SecurityBookmarkManager.shared.clearAllBookmarks()
+            result(success)
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -316,6 +402,56 @@ class AppDelegate: FlutterAppDelegate, AppDelegateInterface {
   func showUserAlert(title: String, message: String) {
     AlertHandler.shared.shouldStayInBackground = self.shouldStayInBackground
     AlertHandler.shared.showUserAlert(title: title, message: message)
+  }
+  
+  // 通知Flutter应用有新的目录被授权
+  private func notifyFlutterDirectoryAuthorized(path: String) {
+    NSLog("AppDelegate: 通知Flutter应用目录已授权: \(path)")
+    
+    // 使用 SecurityBookmarkManager 添加授权目录
+    let success = SecurityBookmarkManager.shared.addAuthorizedDirectory(path)
+    if !success {
+      NSLog("AppDelegate: SecurityBookmarkManager 添加目录失败: \(path)")
+    }
+    
+    guard let window = mainFlutterWindow,
+          let controller = window.contentViewController as? FlutterViewController else {
+      NSLog("AppDelegate: 无法获取FlutterViewController来发送目录授权通知")
+      return
+    }
+    
+    let channel = FlutterMethodChannel(
+      name: "flutter_native_channel", 
+      binaryMessenger: controller.engine.binaryMessenger
+    )
+    
+    // 调用Flutter端的方法来刷新授权目录列表
+    channel.invokeMethod("directoryAuthorized", arguments: ["path": path]) { result in
+      if let error = result as? FlutterError {
+        NSLog("AppDelegate: 通知Flutter目录授权失败: %@", error.message ?? "未知错误")
+      } else {
+        NSLog("AppDelegate: 成功通知Flutter应用目录已授权")
+        
+        // 发送授权目录更新消息给 Finder 扩展
+        DispatchQueue.main.async {
+          self.sendAuthorizedDirectoriesUpdateToFinderExtension()
+        }
+      }
+    }
+  }
+  
+  // 发送授权目录更新消息给 Finder 扩展
+  private func sendAuthorizedDirectoriesUpdateToFinderExtension() {
+    NSLog("AppDelegate: 开始发送授权目录更新消息给 Finder 扩展")
+    
+    // 使用 SecurityBookmarkManager 获取授权目录
+    let authorizedDirectories = SecurityBookmarkManager.shared.getAuthorizedDirectories()
+    
+    NSLog("AppDelegate: 从 SecurityBookmarkManager 获取到 \(authorizedDirectories.count) 个授权目录")
+    
+    // 使用 Messager 发送授权目录更新
+    Messager.shared.sendAuthorizedDirectoriesUpdate(directories: authorizedDirectories)
+    NSLog("AppDelegate: 已发送授权目录更新消息给 Finder 扩展")
   }
 
 }

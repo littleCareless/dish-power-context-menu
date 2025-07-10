@@ -19,6 +19,8 @@ enum ActionType: String, CaseIterable {
     case openInTerminal = "openInTerminal"
     case createNewFile = "createNewFile"
     case menuUpdate = "menuUpdate"
+    case directoryAuthorized = "directoryAuthorized"
+    case authorizedDirectoriesUpdate = "authorizedDirectoriesUpdate"
 }
 
 struct MessagePayload: Codable {
@@ -30,10 +32,11 @@ struct MessagePayload: Codable {
     var fileType: String = ""
     var itemData: [String: String] = [:]
     var menuItems: [[String: Any]]? = nil
+    var authorizedDirectories: [String]? = nil
     
     // 自定义编码器处理 menuItems
     enum CodingKeys: String, CodingKey {
-        case action, target, rid, trigger, bundleId, fileType, itemData, menuItems
+        case action, target, rid, trigger, bundleId, fileType, itemData, menuItems, authorizedDirectories
     }
     
     init(from decoder: Decoder) throws {
@@ -50,6 +53,9 @@ struct MessagePayload: Codable {
         if let menuItemsData = try container.decodeIfPresent(Data.self, forKey: .menuItems) {
             menuItems = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSDictionary.self, NSString.self, NSNumber.self], from: menuItemsData) as? [[String: Any]]
         }
+        
+        // 处理 authorizedDirectories
+        authorizedDirectories = try container.decodeIfPresent([String].self, forKey: .authorizedDirectories)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -67,6 +73,9 @@ struct MessagePayload: Codable {
             let menuItemsData = try? NSKeyedArchiver.archivedData(withRootObject: menuItems, requiringSecureCoding: false)
             try container.encodeIfPresent(menuItemsData, forKey: .menuItems)
         }
+        
+        // 处理 authorizedDirectories 编码
+        try container.encodeIfPresent(authorizedDirectories, forKey: .authorizedDirectories)
     }
     
     init() {}
@@ -100,6 +109,7 @@ class Messager {
         static let finderToMain = "com.rfinder.finder-to-main"
         static let mainToFinder = "com.rfinder.main-to-finder"
         static let menuUpdate = "com.rfinder.menu-update"
+        static let authorizedDirectoriesUpdate = "com.rfinder.authorized-directories-update"
     }
     
     private init() {
@@ -139,10 +149,25 @@ class Messager {
         }
     }
     
-    func on(name: String, handler: @escaping (MessagePayload) -> Void) {
-        center.addObserver(self, selector: #selector(receivedMessage(_:)), name: NSNotification.Name(name), object: nil)
+    func on(name: String, handler: @escaping (MessagePayload) -> Void) -> NSObjectProtocol {
+        let observer = center.addObserver(forName: NSNotification.Name(name), object: nil, queue: nil) { [weak self] notification in
+            guard let self = self else { return }
+            self.handleNotification(notification, handler: handler)
+        }
         bus.updateValue(handler, forKey: name)
         logger.info("注册消息处理器: \(name, privacy: .public)")
+        return observer
+    }
+    
+    private func handleNotification(_ notification: Notification, handler: @escaping (MessagePayload) -> Void) {
+        guard let messageString = notification.object as? String else {
+            logger.warning("收到的通知对象不是字符串类型")
+            return
+        }
+        
+        let payload = reconstructEntry(messagePayload: messageString)
+        logger.info("收到消息: \(notification.name.rawValue, privacy: .public) - \(payload.description, privacy: .public)")
+        handler(payload)
     }
     
     @objc func receivedMessage(_ notification: NSNotification) {
@@ -208,5 +233,33 @@ extension Messager {
             menuItems: menuItems
         )
         sendMessage(name: NotificationNames.menuUpdate, data: payload)
+    }
+    
+    // 发送目录授权消息
+    func sendDirectoryAuthorized(path: String, payload: [String: Any]) {
+        var itemData: [String: String] = [:]
+        for (key, value) in payload {
+            if let stringValue = value as? String {
+                itemData[key] = stringValue
+            } else {
+                itemData[key] = String(describing: value)
+            }
+        }
+        
+        let messagePayload = MessagePayload(
+            action: ActionType.directoryAuthorized.rawValue,
+            target: [path],
+            trigger: "finder-extension",
+            itemData: itemData
+        )
+        sendMessage(name: NotificationNames.finderToMain, data: messagePayload)
+    }
+    
+    // 发送授权目录列表更新消息
+    func sendAuthorizedDirectoriesUpdate(directories: [String]) {
+        var payload = MessagePayload()
+        payload.action = ActionType.authorizedDirectoriesUpdate.rawValue
+        payload.authorizedDirectories = directories
+        sendMessage(name: NotificationNames.authorizedDirectoriesUpdate, data: payload)
     }
 }

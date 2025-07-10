@@ -19,6 +19,7 @@ class MenuItemProvider {
     ]
 
     private static var observer: NSObjectProtocol?
+    private static var messagerObserver: NSObjectProtocol?
     private static let suiteName = "group.fe.com.smileserv.findermenu.app"
     private static let menuItemsKey = "finder_menu_items"
 
@@ -50,7 +51,7 @@ class MenuItemProvider {
         }
         
         // 使用新的 Messager 系统监听菜单更新
-        messager.on(name: Messager.NotificationNames.menuUpdate) { payload in
+        messagerObserver = messager.on(name: Messager.NotificationNames.menuUpdate) { payload in
             NSLog("菜单项提供器: 从主应用收到菜单项更新。")
             if let items = payload.menuItems {
                 MenuItemProvider.finderMenuItems = items
@@ -95,7 +96,11 @@ class MenuItemProvider {
         if let observer = observer {
             DistributedNotificationCenter.default().removeObserver(observer)
             self.observer = nil
-            NSLog("菜单项提供器: 已停止观察菜单更新。")
         }
+        if let messagerObserver = messagerObserver {
+            DistributedNotificationCenter.default().removeObserver(messagerObserver)
+            self.messagerObserver = nil
+        }
+        NSLog("菜单项提供器: 已停止观察菜单更新。")
     }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import '../core/bookmark_manager.dart';
@@ -68,7 +69,26 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     finderMenuItems = _getDefaultMenuItems();
-    super.initState();
+    
+    // 设置方法调用处理器来监听来自原生端的消息
+    FolderPicker.setMethodCallHandler(
+      setSelectedFolders: (List<String> paths) {
+        if (mounted) {
+          setState(() {
+            selectedFolders = paths;
+          });
+        }
+      },
+      setStatusMessage: (String message) {
+        if (mounted) {
+          setState(() {
+            statusMessage = message;
+          });
+        }
+      },
+      finderMenuItems: finderMenuItems.map((item) => item.toJson()).toList(),
+    );
+    
     restoreFolderAccess();
     loadTerminalConfigs();
     _loadFinderMenuItems();
@@ -705,10 +725,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             _buildActionPanel(isCompact: true),
                             const SizedBox(height: 24),
-                            // 使用约束高度而不是固定高度，避免溢出
+                            // 智能动态约束：确保最小高度不超过最大高度
                             ConstrainedBox(
                               constraints: BoxConstraints(
-                                minHeight: 300,
+                                // 动态计算最小高度，确保不超过最大高度
+                                minHeight: math.min(300, constraints.maxHeight * 0.6),
                                 maxHeight: constraints.maxHeight * 0.6, // 最大高度为可用高度的60%
                               ),
                               child: FolderManagementPanel(

@@ -33,7 +33,6 @@
 		69492BCA2E166EE3000AD192 /* URLSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BC72E166EE3000AD192 /* URLSchemeHandler.swift */; };
 		69492BCB2E166EE3000AD192 /* FolderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BC62E166EE3000AD192 /* FolderHandler.swift */; };
 		69492BCD2E166EE3000AD192 /* AlertHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BC22E166EE3000AD192 /* AlertHandler.swift */; };
-		69492BCE2E166EE3000AD192 /* BookmarkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BC32E166EE3000AD192 /* BookmarkHandler.swift */; };
 		69492BCF2E166EE3000AD193 /* MenuConfigHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69492BD02E166EE3000AD194 /* MenuConfigHandler.swift */; };
 		699450B72E1CBC3200E9DE1A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450AE2E1CBC3200E9DE1A /* Configuration.swift */; };
 		699450B82E1CBC3200E9DE1A /* FinderSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450B22E1CBC3200E9DE1A /* FinderSync.swift */; };
@@ -41,6 +40,10 @@
 		699450BA2E1CBC3200E9DE1A /* MenuBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450AF2E1CBC3200E9DE1A /* MenuBuilder.swift */; };
 		699450BB2E1CBC3200E9DE1A /* ActionDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450AD2E1CBC3200E9DE1A /* ActionDispatcher.swift */; };
 		699450BC2E1CBC3200E9DE1B /* Messager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450BC2E1CBC3200E9DE1C /* Messager.swift */; };
+		69C3F2B82E1F74B700E3EA88 /* Messager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699450BC2E1CBC3200E9DE1C /* Messager.swift */; };
+		69C3F2BA2E1F759B00E3EA88 /* AuthorizedDirectoryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C3F2B92E1F759B00E3EA88 /* AuthorizedDirectoryProvider.swift */; };
+		69C3F2BC2E1F89CB00E3EA88 /* SecurityBookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C3F2BB2E1F89CB00E3EA88 /* SecurityBookmarkManager.swift */; };
+		69C3F2BD2E1F89CB00E3EA88 /* SecurityBookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C3F2BB2E1F89CB00E3EA88 /* SecurityBookmarkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,7 +112,6 @@
 		693E01072E1747C9007252D8 /* AppDelegateInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateInterface.swift; sourceTree = "<group>"; };
 		693E014B2E17574E007252D8 /* FinderSync.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FinderSync.framework; path = System/Library/Frameworks/FinderSync.framework; sourceTree = SDKROOT; };
 		69492BC22E166EE3000AD192 /* AlertHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHandler.swift; sourceTree = "<group>"; };
-		69492BC32E166EE3000AD192 /* BookmarkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkHandler.swift; sourceTree = "<group>"; };
 		69492BC42E166EE3000AD192 /* FinderActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderActionHandler.swift; sourceTree = "<group>"; };
 		69492BC62E166EE3000AD192 /* FolderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHandler.swift; sourceTree = "<group>"; };
 		69492BC72E166EE3000AD192 /* URLSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeHandler.swift; sourceTree = "<group>"; };
@@ -123,6 +125,8 @@
 		699450B42E1CBC3200E9DE1A /* FinderSyncExtProfile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinderSyncExtProfile.entitlements; sourceTree = "<group>"; };
 		699450B52E1CBC3200E9DE1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		699450BC2E1CBC3200E9DE1C /* Messager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messager.swift; sourceTree = "<group>"; };
+		69C3F2B92E1F759B00E3EA88 /* AuthorizedDirectoryProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizedDirectoryProvider.swift; sourceTree = "<group>"; };
+		69C3F2BB2E1F89CB00E3EA88 /* SecurityBookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityBookmarkManager.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		980F8FEBB74ADB8FE2B4DD55 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
@@ -220,6 +224,7 @@
 		693E01082E1747C9007252D8 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				69C3F2BB2E1F89CB00E3EA88 /* SecurityBookmarkManager.swift */,
 				693E01072E1747C9007252D8 /* AppDelegateInterface.swift */,
 				699450BC2E1CBC3200E9DE1C /* Messager.swift */,
 			);
@@ -230,7 +235,6 @@
 			isa = PBXGroup;
 			children = (
 				69492BC22E166EE3000AD192 /* AlertHandler.swift */,
-				69492BC32E166EE3000AD192 /* BookmarkHandler.swift */,
 				69492BC42E166EE3000AD192 /* FinderActionHandler.swift */,
 				69492BC62E166EE3000AD192 /* FolderHandler.swift */,
 				69492BC72E166EE3000AD192 /* URLSchemeHandler.swift */,
@@ -253,6 +257,7 @@
 		699450B62E1CBC3200E9DE1A /* FinderSyncExt */ = {
 			isa = PBXGroup;
 			children = (
+				69C3F2B92E1F759B00E3EA88 /* AuthorizedDirectoryProvider.swift */,
 				699450B12E1CBC3200E9DE1A /* FinderSync */,
 				699450B22E1CBC3200E9DE1A /* FinderSync.swift */,
 				699450B32E1CBC3200E9DE1A /* FinderSyncExt.entitlements */,
@@ -487,12 +492,12 @@
 				69492BCA2E166EE3000AD192 /* URLSchemeHandler.swift in Sources */,
 				69492BCB2E166EE3000AD192 /* FolderHandler.swift in Sources */,
 				69492BCD2E166EE3000AD192 /* AlertHandler.swift in Sources */,
+				69C3F2BC2E1F89CB00E3EA88 /* SecurityBookmarkManager.swift in Sources */,
 				693E01092E1747C9007252D8 /* AppDelegateInterface.swift in Sources */,
-				69492BCE2E166EE3000AD192 /* BookmarkHandler.swift in Sources */,
 				69492BCF2E166EE3000AD193 /* MenuConfigHandler.swift in Sources */,
 				33CC10F12044A3C60003C045 /* AppDelegate.swift in Sources */,
 				335BBD1B22A9A15E00E9071D /* GeneratedPluginRegistrant.swift in Sources */,
-				699450BC2E1CBC3200E9DE1B /* Messager.swift in Sources */,
+				69C3F2B82E1F74B700E3EA88 /* Messager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,8 +506,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				699450B72E1CBC3200E9DE1A /* Configuration.swift in Sources */,
+				69C3F2BD2E1F89CB00E3EA88 /* SecurityBookmarkManager.swift in Sources */,
 				699450B82E1CBC3200E9DE1A /* FinderSync.swift in Sources */,
 				699450B92E1CBC3200E9DE1A /* MenuItemProvider.swift in Sources */,
+				69C3F2BA2E1F759B00E3EA88 /* AuthorizedDirectoryProvider.swift in Sources */,
 				699450BA2E1CBC3200E9DE1A /* MenuBuilder.swift in Sources */,
 				699450BB2E1CBC3200E9DE1A /* ActionDispatcher.swift in Sources */,
 				699450BC2E1CBC3200E9DE1B /* Messager.swift in Sources */,

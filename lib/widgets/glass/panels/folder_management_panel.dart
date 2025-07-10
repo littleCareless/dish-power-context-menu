@@ -5,7 +5,7 @@ import '../components/glass_button.dart';
 import '../components/animated_glass_list_tile.dart';
 
 /// 文件夹管理面板组件
-class FolderManagementPanel extends StatelessWidget {
+class FolderManagementPanel extends StatefulWidget {
   final List<String> selectedFolders;
   final VoidCallback? onClearAll;
 
@@ -14,6 +14,25 @@ class FolderManagementPanel extends StatelessWidget {
     required this.selectedFolders,
     this.onClearAll,
   });
+
+  @override
+  State<FolderManagementPanel> createState() => _FolderManagementPanelState();
+}
+
+class _FolderManagementPanelState extends State<FolderManagementPanel> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +68,9 @@ class FolderManagementPanel extends StatelessWidget {
                   ],
                 ),
               ),
-              if (selectedFolders.isNotEmpty && onClearAll != null)
+              if (widget.selectedFolders.isNotEmpty && widget.onClearAll != null)
                 GlassButton.outlined(
-                  onPressed: onClearAll,
+                  onPressed: widget.onClearAll,
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -68,7 +87,7 @@ class FolderManagementPanel extends StatelessWidget {
           // 文件夹列表
           Expanded(
             child:
-                selectedFolders.isEmpty
+                widget.selectedFolders.isEmpty
                     ? _buildEmptyState()
                     : _buildFolderList(),
           ),
@@ -79,57 +98,62 @@ class FolderManagementPanel extends StatelessWidget {
 
   Widget _buildEmptyState() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Icon(
+                Icons.folder_off_outlined,
+                size: 64,
+                color: Colors.white.withOpacity(0.6),
+              ),
             ),
-            child: Icon(
-              Icons.folder_off_outlined,
-              size: 64,
-              color: Colors.white.withOpacity(0.6),
+            const SizedBox(height: 16),
+            const Text(
+              '暂无已授权的文件夹',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          const SizedBox(height: 24),
-          const Text(
-            '暂无已授权的文件夹',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
+            const SizedBox(height: 8),
+            Text(
+              '请使用左侧的操作面板选择文件夹\n开始管理您的Finder菜单',
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.7),
+                fontSize: 16,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            '请使用左侧的操作面板选择文件夹\n开始管理您的Finder菜单',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
-              fontSize: 16,
-              height: 1.5,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildFolderList() {
     return Scrollbar(
+      controller: _scrollController,
       thumbVisibility: true,
       trackVisibility: true,
       thickness: 8.0,
       radius: const Radius.circular(4),
       child: ListView.separated(
+        controller: _scrollController,
         padding: const EdgeInsets.only(bottom: 24, right: 24),
-        itemCount: selectedFolders.length,
+        itemCount: widget.selectedFolders.length,
         separatorBuilder: (context, index) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
-          final folderPath = selectedFolders[index];
+          final folderPath = widget.selectedFolders[index];
           String folderName = folderPath;
           if (folderPath.contains('/')) {
             final parts = folderPath.split('/').where((s) => s.isNotEmpty);
